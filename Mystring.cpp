@@ -70,11 +70,6 @@ Mystring operator+(const Mystring& str1,const Mystring& str2){
     return ret;
 }
 
-// Mystring operator-(const Mystring& str1,const Mystring& str2){
-//     Mystring ret;
-//     ret.m_data = new char
-// }
-
 Mystring& Mystring::operator+=(const Mystring& str){
     if(str.m_data == nullptr){
         return *this;
@@ -89,44 +84,59 @@ Mystring& Mystring::operator+=(const Mystring& str){
     }
 }
 
+Mystring Mystring::substr(int pos,const int n){
+    if((pos+n)>=strlen(m_data))
+    {
+        cout << "error:超出最大限制" << endl;
+    }
+        Mystring ret;
+        ret.m_data = new char[n+1]; 
+        for(int i=0;i<n;i++)
+        {
+            ret.m_data[i] = m_data[pos+i];
+        }
+        ret.m_data[n] = '\0';
+        return ret;
+}
 
-// int Mystring::find(const Mystring& str,int index){
-//     if(str.m_data == nullptr || index >= this->length())
-//         return -1;
-//     int flag;
-//     for(int i = 0;i < str.length();i++){
-//         flag = -1;
-//         for(int j = index;j < this->length();j++){
-//             if(str[i] == m_data[j]){
-//                 flag = i;  
-//                 break;  
-//             }
-//         }
-//         if(flag != -1){
+int Mystring::toInt(){
+    int i;
+    int res = 0;
+    for(int i = 0;i < strlen(m_data);i++){
+        if((m_data[i]-'0' >= 0) && (m_data[i]-'0') <=9)
+            res = (m_data[i] - '0') + res * 10;
+        else
+            return -1;
+    }
+    return res;
+}
 
-//         }
-//     }
-// }
+double Mystring::toDouble(){
+    double res = -1;
+    int index = strlen(m_data); 
+    int i;
+    for (i = 0; i < strlen(m_data); i++)
+    {
+        if (m_data[i] - '.' == 0)
+            index = i;
+    }
+    for (i = 0; i < index; i++)
+        res = res*10 + (m_data[i] - '0');
+    for (i = index; i < strlen(m_data); i++)
+        res = res +((m_data[i]-'0') / 10 / (i - index + 1));
+    return res;
+}
 
-// Mystring& Mystring::operator-=(const Mystring& str){
-//     if(str.m_data == nullptr){
-//         return *this;
-//     }    
-//     else if(str.length()>this->length()){
-//         cout << "error" << endl;
-//     }
-//     else if()
-// }
-
-// Mystring Mystring::substr(int pos,const int n){
-//     if((pos+n)>=this->length())
-        
-// }
 
 int main()
 {
     Mystring temp3("123");
     cout << temp3 << endl;
+
+    cout << temp3.substr(0,2) << endl;
+
+    int temp5 = temp3.toInt();
+    cout << temp5 << endl;
 
     Mystring temp4(temp3);
     cout << temp4 << endl;
@@ -140,6 +150,7 @@ int main()
     Mystring temp2 = temp + temp1;
     cout << temp2 << endl;
 
-    temp2 += temp1;
-    cout << temp2 << endl;
+    temp += temp1;
+    cout << temp << endl;
+
 }
